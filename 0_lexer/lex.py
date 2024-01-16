@@ -7,7 +7,7 @@ class Lexer:
 
     def nextChar(self):
         pass
-
+ 
     def peek(self):
         pass
 
