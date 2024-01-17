@@ -111,10 +111,22 @@ class Lexer:
                 token = Token(lastChar + self.curChar, TokenType.NOTEQ)
             else:
                 self.abort("Expected != , instead got: !" + self.peek())
-        elif self.curChar == '\n':
-            token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
+        elif self.curChar == '\n':
+            token = Token(self.curChar, TokenType.NEWLINE)
+        elif self.curChar == '\"':
+            self.nextChar()
+            startPos = self.curPos
+
+            while self.curChar != '\"':
+                if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
+                    self.abort("Illegal char in string")
+                else:
+                    self.nextChar()
+            
+            tokenText = self.source[startPos:self.curPos]
+            token = Token(tokenText, TokenType.STRING)
         else:
             self.abort("Unknown token: " + self.curChar)
 
