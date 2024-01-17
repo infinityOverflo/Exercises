@@ -61,12 +61,15 @@ class Lexer:
         sys.exit("Lexing error. " + message)
 
     def skipWhitespace(self):
-        pass
+        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+            self.nextChar()
 
     def skipComment(self):
         pass
 
     def getToken(self):
+        self.skipWhitespace()
+
         token = None
 
         if self.curChar == '+':
