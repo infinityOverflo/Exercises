@@ -65,10 +65,13 @@ class Lexer:
             self.nextChar()
 
     def skipComment(self):
-        pass
+        if self.curChar == '#':
+            while self.curChar != '\n':
+                self.nextChar()
 
     def getToken(self):
         self.skipWhitespace()
+        self.skipComment()
 
         token = None
 
