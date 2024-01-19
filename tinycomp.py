@@ -1,7 +1,7 @@
 from lexer.lex import *
 
 def main():
-    source = "+ * / - == <= >= != #_random message_\n <= \"Hello\" 111.122"
+    source = "+ * / - == <= >= != #_random message_\n <= \"Hello\" +-111.122"
 
     lexer = Lexer(source)
 
