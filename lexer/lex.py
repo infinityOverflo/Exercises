@@ -38,6 +38,13 @@ class Token:
         self.text = tokenText
         self.kind = tokenKind
 
+    @staticmethod
+    def checkIfWord(tokenText):
+        for kind in TokenType:
+            if kind.name == tokenText and kind.value >= 100 and kind.value <= 200:
+                return kind
+        return None
+
 class Lexer:
     def __init__(self, source):
         self.source = source + '\n'
@@ -127,6 +134,17 @@ class Lexer:
                     self.nextChar()
             tokText = self.source[startPos : self.curPos + 1]
             token = Token(tokText, TokenType.NUMBER)
+        elif self.curChar.isalpha():
+            startPos = self.curPos
+            while self.peek().isalnum():
+                self.nextChar()
+            tokText = self.source[startPos : self.curPos + 1]
+            keyword = Token.checkIfWord(tokText)
+            if keyword:
+                token = Token(tokText, keyword)
+            else:
+                token = Token(tokText, TokenType.IDENT)
+
         elif self.curChar == '\"':
             self.nextChar()
             startPos = self.curPos
