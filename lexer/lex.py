@@ -115,6 +115,18 @@ class Lexer:
             token = Token(self.curChar, TokenType.EOF)
         elif self.curChar == '\n':
             token = Token(self.curChar, TokenType.NEWLINE)
+        elif self.curChar.isdigit():
+            startPos = self.curPos
+            while self.peek().isdigit():
+                self.nextChar()
+            if self.peek() == '.':
+                self.nextChar()
+                if not self.peek().isdigit():
+                    self.abort("Illegal character in number")
+                while self.peek().isdigit():
+                    self.nextChar()
+            tokText = self.source[startPos : self.curPos + 1]
+            token = Token(tokText, TokenType.NUMBER)
         elif self.curChar == '\"':
             self.nextChar()
             startPos = self.curPos
